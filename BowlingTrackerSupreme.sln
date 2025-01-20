@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BowlingTrackerSupreme.Blazo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BowlingTrackerSupreme.Blazor.Client", "BowlingTrackerSupreme.Blazor\BowlingTrackerSupreme.Blazor.Client\BowlingTrackerSupreme.Blazor.Client.csproj", "{4C3CECAA-42BF-4A6A-B3FA-5CEDFC3CF1D0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BowlingTrackerSupreme.Infrastructure", "BowlingTrackerSupreme.Infrastructure\BowlingTrackerSupreme.Infrastructure.csproj", "{44322F02-C7D9-4F50-9A3B-130B0AFFF172}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BowlingTrackerSupreme.Migrations", "BowlingTrackerSupreme.Migrations\BowlingTrackerSupreme.Migrations.csproj", "{1B8BFF48-112C-42CB-84D3-41266666CCDF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,5 +33,13 @@ Global
 		{4C3CECAA-42BF-4A6A-B3FA-5CEDFC3CF1D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C3CECAA-42BF-4A6A-B3FA-5CEDFC3CF1D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C3CECAA-42BF-4A6A-B3FA-5CEDFC3CF1D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44322F02-C7D9-4F50-9A3B-130B0AFFF172}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44322F02-C7D9-4F50-9A3B-130B0AFFF172}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44322F02-C7D9-4F50-9A3B-130B0AFFF172}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44322F02-C7D9-4F50-9A3B-130B0AFFF172}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B8BFF48-112C-42CB-84D3-41266666CCDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B8BFF48-112C-42CB-84D3-41266666CCDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B8BFF48-112C-42CB-84D3-41266666CCDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B8BFF48-112C-42CB-84D3-41266666CCDF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
