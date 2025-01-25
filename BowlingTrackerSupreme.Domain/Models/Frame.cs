@@ -9,7 +9,7 @@ public class Frame
     public Guid FirstRollId { get; set; }
     public Roll FirstRoll { get; set; } = null!;
     public Guid SecondRollId { get; set; }
-    public Roll? SecondRoll { get; set; }
+    public Roll? SecondRoll { get; set; } 
     public virtual IEnumerable<Roll?> AllRolls => 
     [
         FirstRoll, 
