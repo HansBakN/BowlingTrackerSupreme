@@ -18,4 +18,5 @@ public class Frame
     public bool IsStrike => FirstRoll.PinsHit == 10;
     public bool IsSpare => SecondRoll != null && (SecondRoll.PinsHit + FirstRoll.PinsHit) == 10; 
     public virtual int FrameNumber { get; set; }
+    public int? Score { get; set; }
 }
