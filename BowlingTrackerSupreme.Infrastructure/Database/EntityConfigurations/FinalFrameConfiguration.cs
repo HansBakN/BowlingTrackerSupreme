@@ -4,10 +4,10 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace BowlingTrackerSupreme.Infrastructure.Database.EntityConfigurations;
 
-public class RollConfiguration : IEntityTypeConfiguration<Roll>
+public class FinalFrameConfiguration : IEntityTypeConfiguration<FinalFrame>
 {
-    public void Configure(EntityTypeBuilder<Roll> builder)
+    public void Configure(EntityTypeBuilder<FinalFrame> builder)
     {
-        builder.HasKey(x => x.Id);
+        builder.OwnsOne(x => x.ThirdRoll);
     }
 }

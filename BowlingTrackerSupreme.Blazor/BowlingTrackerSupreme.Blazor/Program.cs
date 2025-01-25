@@ -1,9 +1,6 @@
-using BowlingTrackerSupreme.Blazor.Client.Pages;
 using BowlingTrackerSupreme.Blazor.Components;
 using BowlingTrackerSupreme.Infrastructure;
-using BowlingTrackerSupreme.Infrastructure.Database;
 using BowlingTrackerSupreme.Migrations;
-using Microsoft.IdentityModel.Protocols.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,14 +9,12 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
 
-var connectionString = builder.Configuration.GetConnectionString("BowlingTrackerSupremeDb");
 
-if (connectionString == null)
+builder.Services.AddBowlingTrackerSupremeInfrastructure(builder.Configuration, contextOptionsBuilder =>
 {
-    throw new InvalidConfigurationException("Missing connection string in configuration.");
-}
+    contextOptionsBuilder.AllowMigrationManagement();
+});
 
-builder.Services.AddDbContext<BowlingTrackerSupremeDbContext>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

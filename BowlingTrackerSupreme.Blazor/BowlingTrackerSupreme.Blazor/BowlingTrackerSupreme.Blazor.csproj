@@ -11,6 +11,7 @@
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.12" />
         <ProjectReference Include="..\..\BowlingTrackerSupreme.Infrastructure\BowlingTrackerSupreme.Infrastructure.csproj" />
         <ProjectReference Include="..\..\BowlingTrackerSupreme.Migrations\BowlingTrackerSupreme.Migrations.csproj" />
         <ProjectReference Include="..\BowlingTrackerSupreme.Blazor.Client\BowlingTrackerSupreme.Blazor.Client.csproj"/>

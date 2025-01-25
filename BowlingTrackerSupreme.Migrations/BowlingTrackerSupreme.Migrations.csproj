@@ -12,13 +12,6 @@
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.12" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Reference Include="Microsoft.EntityFrameworkCore.SqlServer">
-        <HintPath>..\..\..\.nuget\packages\microsoft.entityframeworkcore.sqlserver\9.0.1\lib\net8.0\Microsoft.EntityFrameworkCore.SqlServer.dll</HintPath>
-      </Reference>
     </ItemGroup>
 
     <ItemGroup>
