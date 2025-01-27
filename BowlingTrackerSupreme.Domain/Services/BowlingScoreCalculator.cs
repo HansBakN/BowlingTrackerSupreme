@@ -2,19 +2,8 @@ using BowlingTrackerSupreme.Domain.Models;
 
 namespace BowlingTrackerSupreme.Domain.Services;
 
-// TODO: needs testing. May not be accurate at all.
 public class BowlingScoreCalculator
 {
-    public int CalculateScore(List<Frame> frames)
-    {
-        foreach (var frame in frames)
-        {
-            frame.Score = CalculateScore(frame, frames);
-        }
-        
-        return frames.Sum(frame => frame.Score ?? 0);
-    }
-
     public int? CalculateScore(Frame currentFrame, List<Frame> otherFrames)
     {
         if (currentFrame is FinalFrame finalFrame)
