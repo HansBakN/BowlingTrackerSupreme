@@ -1,6 +1,0 @@
-﻿services:
-  bowlingtrackersupreme.webapp:
-    image: bowlingtrackersupreme.webapp
-    build:
-      context: .
-      dockerfile: BowlingTrackerSupreme.WebApp/Dockerfile
