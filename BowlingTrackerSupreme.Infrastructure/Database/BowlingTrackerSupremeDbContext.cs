@@ -11,6 +11,7 @@ public class BowlingTrackerSupremeDbContext(DbContextOptions<BowlingTrackerSupre
     public DbSet<Roll> Rolls { get; set; }
     public DbSet<PlayerGame> PlayerGames { get; set; }
     public DbSet<Frame> Frames { get; set; }
+    public DbSet<TheCounter> TheCounters { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

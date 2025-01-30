@@ -1,0 +1,75 @@
+﻿@page "/counters"
+@using BowlingTrackerSupreme.Blazor.Components.Modals
+@using BowlingTrackerSupreme.Domain.Models
+@using BowlingTrackerSupreme.Infrastructure.Database;
+@inject BowlingTrackerSupremeDbContext DbContext;
+@attribute [StreamRendering]
+
+<PageTitle>The Counters</PageTitle>
+
+<div style="
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+">
+	<h3>The Counters</h3>
+	<button class="btn btn-primary" style="min-width: 100px;" @onclick="OnButtonAdd">+</button>
+</div>
+
+
+@if (counters == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var counter in counters)
+            {
+                <tr>
+                    <td>@counter.Id</td>
+                    <td>@counter.Name</td>
+                    <td>@counter.Value</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<TheCounter>? counters;
+    private static Random random;
+
+    protected override async Task OnInitializedAsync()
+    {
+        counters =
+        (
+            from c in DbContext.TheCounters
+            select c
+        ).ToList();
+    }
+
+    private async Task OnButtonAdd()
+    {
+        var newCounter = new TheCounter
+            {
+                Id = Guid.NewGuid(),
+                Name = "",
+                Value = random.Next(100),
+            };
+
+        using BowlingTrackerSupremeDbContext dbContext = DbContext;
+        await dbContext.AddAsync(newCounter);
+        await dbContext.SaveChangesAsync();
+        await OnInitializedAsync();
+    }
+}

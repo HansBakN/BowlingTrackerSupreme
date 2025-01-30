@@ -1,9 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35707.178
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9DB2951B-C7D3-4BFB-B9A8-19A80FDA80E6}"
 	ProjectSection(SolutionItems) = preProject
-		compose.yaml = compose.yaml
 		.gitignore = .gitignore
+		compose.yaml = compose.yaml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BowlingTrackerSupreme.Domain", "BowlingTrackerSupreme.Domain\BowlingTrackerSupreme.Domain.csproj", "{A6826A02-6D59-44E3-B109-E7327D44AAA0}"
@@ -42,5 +45,8 @@ Global
 		{1B8BFF48-112C-42CB-84D3-41266666CCDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B8BFF48-112C-42CB-84D3-41266666CCDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B8BFF48-112C-42CB-84D3-41266666CCDF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal
