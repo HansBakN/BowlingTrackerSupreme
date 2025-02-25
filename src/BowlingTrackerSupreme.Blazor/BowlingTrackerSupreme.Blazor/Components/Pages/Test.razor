@@ -48,8 +48,8 @@ else
             .Take(50)
             .Select(g => new DisplayGame
             {
-                DateCreated = g.DateCreated,
-                DatePlayed = g.DatePlayed,
+                DateCreated = g.CreatedOn,
+                DatePlayed = g.PlayedOn,
                 ParticipantCount = g.Participants.Count(),
             })
             .ToArrayAsync();
