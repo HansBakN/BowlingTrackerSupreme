@@ -9,8 +9,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.11"/>
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.11" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.12" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\BowlingTrackerSupreme.Domain\BowlingTrackerSupreme.Domain.csproj" />
     </ItemGroup>
 
 </Project>

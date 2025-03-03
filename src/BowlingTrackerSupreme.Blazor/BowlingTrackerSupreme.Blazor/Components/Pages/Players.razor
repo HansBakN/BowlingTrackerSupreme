@@ -1,0 +1,48 @@
+﻿@page "/players"
+@using BowlingTrackerSupreme.Domain.Models
+@using BowlingTrackerSupreme.Infrastructure.Database
+@inject BowlingTrackerSupremeDbContext DbContext
+@attribute [StreamRendering]
+
+<div class="d-flex justify-content-between">
+	<h3>Players</h3>
+	<a href="player" class="btn btn-info" style="min-width: 100px;">New</a>
+</div>
+
+@if (PlayerList == null) { <em>Loading...</em> }
+else
+{
+	<table class="table table-striped table-hover table-responsive">
+		<caption>List of players: @PlayerList.Count()</caption>
+		<thead> 
+			<tr>
+				<th scope="col" class="w-100">Name</th>
+				<th scope="col" class="text-end text-nowrap">Created On</th>
+				<th scope="col" class="text-end text-nowrap">Modified On</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach(var player in PlayerList)
+			{
+				<tr >
+					<td class="w-100"><a href="player/@player.Id">@player.Name</a></td>
+					<td class="text-end text-nowrap">@player.CreatedOn</td>
+					<td class="text-end text-nowrap">@player.ModifiedOn</td>
+				</tr>
+			}
+		</tbody>
+
+	</table>
+}
+
+
+@code {
+	protected IEnumerable<Player> PlayerList;
+
+	protected override async Task OnInitializedAsync()
+	{
+		PlayerList = (from p in DbContext.Players
+			orderby p.CreatedOn descending
+							select p).ToList();
+	}
+}
