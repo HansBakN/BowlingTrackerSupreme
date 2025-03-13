@@ -1,0 +1,29 @@
+﻿@page "/player/{Id}"
+@using BowlingTrackerSupreme.Infrastructure.Database;
+@inject BowlingTrackerSupremeDbContext DbContext;
+@inject NavigationManager NavigationManager;
+@attribute [StreamRendering]
+
+<PageTitle>Player</PageTitle>
+<h3>
+	@if(_player == null) { <em>Loading...</em> }
+	else { @_player.Name }
+</h3>
+
+@code {
+	[Parameter]
+	public string Id { get; set; }
+
+	private Domain.Models.Player _player;
+
+	protected override async Task OnInitializedAsync()
+	{
+		if (!Guid.TryParse(Id, out var id))
+		{
+			NavigationManager.NavigateTo("/error");
+		}
+
+		_player = await DbContext.Players.FindAsync(id);
+
+	}
+}

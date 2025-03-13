@@ -25,7 +25,7 @@ else
         @foreach (var game in _games)
         {
             <tr>
-                <td class="w-100"><a href="games/@game.Id">@game.PlayedOn</a></td>
+                <td class="w-100"><a href="game/@game.Id">@game.PlayedOn</a></td>
                 <td class="text-nowrap"><a href="player/@game.WinningPlayerId">@game.WinningPlayer?.Name</a></td>
                 <td class="text-end text-nowrap">@game.CreatedOn</td>
                 <td class="text-end text-nowrap">@game.ModifiedOn</td>
@@ -44,7 +44,7 @@ else
         _games = await DbContext.Games
             .Take(50)
             .OrderByDescending(g => g.CreatedOn)
-            .Select(g => new Game
+            .Select(g => new Domain.Models.Game
             {
                 Id = g.Id,
                 CreatedOn = g.CreatedOn,

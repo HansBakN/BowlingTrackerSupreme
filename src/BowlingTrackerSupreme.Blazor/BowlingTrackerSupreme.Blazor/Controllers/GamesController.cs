@@ -3,7 +3,6 @@ using BowlingTrackerSupreme.Infrastructure.Database;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
-using System.Security.Principal;
 
 namespace BowlingTrackerSupreme.Blazor.Controllers
 {

@@ -1,0 +1,127 @@
+﻿@page "/game/{Id}"
+@using BowlingTrackerSupreme.Domain.Models
+@using BowlingTrackerSupreme.Infrastructure.Database
+@inject BowlingTrackerSupremeDbContext DbContext
+@inject NavigationManager NavigationManager
+@attribute [StreamRendering]
+
+<PageTitle>Game - @_game?.PlayedOn</PageTitle>
+<h3>Game - 
+	@if (_game == null) { <em>Loading...</em>}
+    else { @_game.PlayedOn }
+</h3>
+
+<table class="table table-striped table-hover table-responsive">
+    <caption>Game players: 
+        @if (_players == null) { <em>Loading...</em> }
+        else { _players.Count(); }
+    </caption>
+    <thead>
+        <tr class="d-flex flex-nowrap flex-row">
+            <th class="d-flex justify-content-start w-50" >Player</th>
+            @for(var index = 1; index <= 10; index++)
+            {
+                <th class="d-flex flex-nowrap justify-content-center" style="width: 100px;" >@index</th>
+            }
+            <th class="d-flex justify-content-center w-50">Score</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (_playerGames != null)
+        {
+            @foreach (var playerGame in _playerGames)
+            {
+                <tr class="d-flex">
+                    <td class="d-flex align-content-center w-50" >@playerGame.Player.Name</td>
+                    @foreach(var frame in playerGame.Frames)
+                    {
+                        <td style="width: 100px;">
+                            <div class="d-flex flex-md-wrap border-1">
+                                <div class="d-flex justify-content-center w-50">
+                                    @frame.FirstRoll?.PinsHit
+                                </div>
+                                <div class="d-flex justify-content-center w-50 border border-1 border-dark">
+                                    @if(frame.IsSpare) { <div>/</div> }
+                                    else { @frame.SecondRoll?.PinsHit }
+                                </div>
+                                <div class="w-100 d-flex justify-content-center">
+                                   <b>@frame.Score</b>
+                                </div>
+                            </div>	
+                        </td>
+                    }
+                    <td class="d-flex w-50">300</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+
+    private Domain.Models.Game _game;
+    private IEnumerable<Domain.Models.Frame> _frames;
+    private IEnumerable<Domain.Models.PlayerGame> _playerGames;
+    private IEnumerable<Domain.Models.Player> _players;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (!Guid.TryParse(Id, out var gameId))
+        {
+            NavigationManager.NavigateTo("/error");
+        }
+        var game = await DbContext.Games.FindAsync(gameId);
+        if (game == null)
+        {
+            NavigationManager.NavigateTo("/error");
+        }
+
+        _playerGames = new List<PlayerGame>
+        {
+            new PlayerGame
+            {
+                Id = Guid.NewGuid(),
+                GameId = game.Id,
+                Player = new Domain.Models.Player
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Butterfly"
+                },
+                Game = game,
+                PlayerId = Guid.NewGuid(),
+                Frames = new List<Frame>
+                {
+                    new Frame
+                    {
+                        Id = Guid.NewGuid(),
+                        FirstRoll = new Roll
+                        {
+                            PinsHit = 9,
+                        },
+                        SecondRoll = new Roll
+                        {
+                            PinsHit = 1,
+                        },
+                        Score = 20
+                    },
+                    new Frame(),
+                    new Frame(),
+                    new Frame(),
+                    new Frame(),
+                    new Frame(),
+                    new Frame(),
+                    new Frame(),
+                    new Frame(),
+                    new Frame(),
+                }
+            }
+        };
+        // var playerGames = DbContext.PlayerGames.First();
+		// var playerIds = _playerGames.Select(p => p.PlayerId).ToList();
+		// _players = DbContext.Players.Where(x => playerIds.Contains(x.Id)).ToList();
+
+		_game = game;
+	}
+}
