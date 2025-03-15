@@ -1,0 +1,42 @@
+﻿@page "/player"
+@using BowlingTrackerSupreme.Domain.Models;
+@inject HttpClient httpClient
+@inject NavigationManager NavigationManager
+
+<h3>Add new player</h3>
+
+<EditForm Model="@player" OnValidSubmit="SavePlayer">
+	<DataAnnotationsValidator />
+	<div class="mb-3">
+		<label class="form-label">Name</label>
+		<div class="col-mb-4">
+			<InputText class="form-control" @bind-Value="player.Name" />
+		</div>
+		<ValidationMessage For="@(() => player.Name)" />
+	</div>
+
+	<div class="form-group">
+		<button type="submit" class="btn btn-primary">Add</button>
+		<button class="btn btn-cancel" @onclick="Cancel">Cancel</button>
+	</div>
+</EditForm>
+
+
+@code {
+
+	protected Domain.Models.Player player = new()
+	{
+		Name = "test"
+	};
+
+	protected async Task SavePlayer()
+	{
+		var response = await httpClient.PostAsJsonAsync("api/players", player);
+		response.EnsureSuccessStatusCode();
+	}
+
+	protected void Cancel()
+	{
+		NavigationManager.NavigateTo("/players");
+	}
+}

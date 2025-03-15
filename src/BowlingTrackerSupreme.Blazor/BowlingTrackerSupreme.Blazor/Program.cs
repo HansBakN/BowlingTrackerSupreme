@@ -9,7 +9,6 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
 
-
 builder.Services.AddBowlingTrackerSupremeInfrastructure(builder.Configuration, contextOptionsBuilder =>
 {
     contextOptionsBuilder.AllowMigrationManagement();
@@ -21,6 +20,8 @@ builder.Services.AddHsts(options =>
     options.IncludeSubDomains = true;
     options.MaxAge = TimeSpan.FromDays(7);
 });
+
+builder.Services.AddControllers();
 
 var app = builder.Build();
 
@@ -37,6 +38,8 @@ else
 }
 
 app.UseHttpsRedirection();
+app.UseRouting();
+app.MapControllers();
 
 app.UseStaticFiles();
 app.UseAntiforgery();
