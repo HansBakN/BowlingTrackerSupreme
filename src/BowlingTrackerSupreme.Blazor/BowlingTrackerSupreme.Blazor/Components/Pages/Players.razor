@@ -27,7 +27,7 @@ else
 			@foreach(var player in PlayerList)
 			{
 				<tr >
-					<td class="w-100"><a href="player/@player.Id">@player.Name</a></td>
+					<td class="w-100"><a href="player/@player.Id">@player.UserName</a></td>
 					<td class="text-end text-nowrap">@player.CreatedOn</td>
 					<td class="text-end text-nowrap">@player.ModifiedOn</td>
 				</tr>
@@ -43,8 +43,8 @@ else
 
 	protected override async Task OnInitializedAsync()
 	{
-		PlayerList = (from p in DbContext.Players
+		PlayerList = (from p in DbContext.PlayerSet
 			orderby p.CreatedOn descending
-							select p).ToList();
+			select p).ToList();
 	}
 }

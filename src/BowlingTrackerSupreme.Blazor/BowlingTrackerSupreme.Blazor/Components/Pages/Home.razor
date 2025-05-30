@@ -39,8 +39,9 @@
 	{
 		await base.OnInitializedAsync();
 
-		PlayerCount = DbContext.Players.Count();
-		GamesCount = DbContext.Games.Count();
-		FramesCount = DbContext.Frames.Count();
+		PlayerCount = DbContext.PlayerSet.Count();
+		PlayerNamesCount = DbContext.PlayerNicknameSet.Count();
+		GamesCount = DbContext.GameSet.Count();
+		FramesCount = DbContext.FrameSet.Count();
 	}
 }

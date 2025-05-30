@@ -26,7 +26,7 @@ else
         {
             <tr>
                 <td class="w-100"><a href="game/@game.Id">@game.PlayedOn</a></td>
-                <td class="text-nowrap"><a href="player/@game.WinningPlayerId">@game.WinningPlayer?.Name</a></td>
+                <td class="text-nowrap">[WINNING_PLAYER]<!--<a href="player/@game.WinningPlayerId">@game.WinningPlayer?.Name</a>--></td>
                 <td class="text-end text-nowrap">@game.CreatedOn</td>
                 <td class="text-end text-nowrap">@game.ModifiedOn</td>
             </tr>
@@ -41,7 +41,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        _games = await DbContext.Games
+        _games = await DbContext.GameSet
             .Take(50)
             .OrderByDescending(g => g.CreatedOn)
             .Select(g => new Domain.Models.Game
@@ -49,7 +49,7 @@ else
                 Id = g.Id,
                 CreatedOn = g.CreatedOn,
                 ModifiedOn = g.ModifiedOn,
-                WinningPlayer = g.WinningPlayer
+                // WinningPlayer = g.WinningPlayer
             })
             .ToListAsync();
     }

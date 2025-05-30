@@ -10,9 +10,9 @@
 	<div class="mb-3">
 		<label class="form-label">Name</label>
 		<div class="col-mb-4">
-			<InputText class="form-control" @bind-Value="player.Name" />
+			<InputText class="form-control" @bind-Value="player.UserName" />
 		</div>
-		<ValidationMessage For="@(() => player.Name)" />
+		<ValidationMessage For="@(() => player.UserName)" />
 	</div>
 
 	<div class="form-group">
@@ -26,7 +26,7 @@
 
 	protected Domain.Models.Player player = new()
 	{
-		Name = "test"
+		UserName = "test"
 	};
 
 	protected async Task SavePlayer()

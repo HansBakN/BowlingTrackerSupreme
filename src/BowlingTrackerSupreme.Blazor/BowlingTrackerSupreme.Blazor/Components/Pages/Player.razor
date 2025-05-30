@@ -7,7 +7,7 @@
 <PageTitle>Player</PageTitle>
 <h3>
 	@if(_player == null) { <em>Loading...</em> }
-	else { @_player.Name }
+	else { @_player.UserName }
 </h3>
 
 @code {
@@ -23,7 +23,7 @@
 			NavigationManager.NavigateTo("/error");
 		}
 
-		_player = await DbContext.Players.FindAsync(id);
+		_player = await DbContext.PlayerSet.FindAsync(id);
 
 	}
 }

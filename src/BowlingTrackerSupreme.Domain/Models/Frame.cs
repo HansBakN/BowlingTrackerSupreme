@@ -3,22 +3,20 @@ namespace BowlingTrackerSupreme.Domain.Models;
 public class Frame
 {
     public Guid Id { get; set; }
-    public DateTime CreatedOn { get; set; }
-    public DateTime ModifiedOn { get; set; }
-    public Guid PlayerGameId { get; set; }
-    public PlayerGame PlayerGame { get; set; } = null!;
     
-    public Guid FirstRollId { get; set; }
-    public Roll FirstRoll { get; set; } = null!;
-    public Guid SecondRollId { get; set; }
-    public Roll? SecondRoll { get; set; } 
-    public virtual IEnumerable<Roll?> AllRolls => 
-    [
-        FirstRoll, 
-        SecondRoll,
-    ];
-    public bool IsStrike => FirstRoll.PinsHit == 10;
-    public bool IsSpare => SecondRoll != null && (SecondRoll.PinsHit + FirstRoll.PinsHit) == 10; 
-    public virtual int FrameNumber { get; set; }
-    public int? Score { get; set; }
+    public Guid GamePlayerId { get; set; }
+
+    public GamePlayer GamePlayer { get; set; }
+
+    public int Index { get; set; }
+
+    public int FirstRoll { get; set; }
+    
+    public int SecondRoll { get; set; }
+    
+    public int ThirdRoll { get; set; }
+
+    public int AccumulatedScore { get; set; }
+    
+    public int Score { get; set; }
 }

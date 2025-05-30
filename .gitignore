@@ -5,6 +5,7 @@ riderModule.iml
 /_ReSharper.Caches/
 #appsettings*.json
 .idea/
+appsettings.json
 
 
 ## Ignore Visual Studio temporary files, build results, and

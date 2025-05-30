@@ -27,22 +27,23 @@
         </tr>
     </thead>
     <tbody>
-        @if (_playerGames != null)
+        @if (_gamePlayers != null)
         {
-            @foreach (var playerGame in _playerGames)
+            @foreach (var playerGame in _gamePlayers)
             {
                 <tr class="d-flex">
-                    <td class="d-flex align-content-center w-50" >@playerGame.Player.Name</td>
+                    <td class="d-flex align-content-center w-50" >@playerGame.Player.UserName</td>
                     @foreach(var frame in playerGame.Frames)
                     {
                         <td style="width: 100px;">
                             <div class="d-flex flex-md-wrap border-1">
                                 <div class="d-flex justify-content-center w-50">
-                                    @frame.FirstRoll?.PinsHit
+                                    @frame.FirstRoll
                                 </div>
                                 <div class="d-flex justify-content-center w-50 border border-1 border-dark">
-                                    @if(frame.IsSpare) { <div>/</div> }
-                                    else { @frame.SecondRoll?.PinsHit }
+                                    @* @if(frame.i IsSpare) { <div>/</div> }
+                                    else { @frame.SecondRoll?.PinsHit } *@
+                                    @frame.SecondRoll
                                 </div>
                                 <div class="w-100 d-flex justify-content-center">
                                    <b>@frame.Score</b>
@@ -63,7 +64,7 @@
 
     private Domain.Models.Game _game;
     private IEnumerable<Domain.Models.Frame> _frames;
-    private IEnumerable<Domain.Models.PlayerGame> _playerGames;
+    private IEnumerable<Domain.Models.GamePlayer> _gamePlayers;
     private IEnumerable<Domain.Models.Player> _players;
 
     protected override async Task OnInitializedAsync()
@@ -72,22 +73,22 @@
         {
             NavigationManager.NavigateTo("/error");
         }
-        var game = await DbContext.Games.FindAsync(gameId);
+        var game = await DbContext.GameSet.FindAsync(gameId);
         if (game == null)
         {
             NavigationManager.NavigateTo("/error");
         }
 
-        _playerGames = new List<PlayerGame>
+        _gamePlayers = new List<GamePlayer>
         {
-            new PlayerGame
+            new GamePlayer
             {
                 Id = Guid.NewGuid(),
                 GameId = game.Id,
                 Player = new Domain.Models.Player
                 {
                     Id = Guid.NewGuid(),
-                    Name = "Butterfly"
+                    UserName = "Butterfly"
                 },
                 Game = game,
                 PlayerId = Guid.NewGuid(),
@@ -96,14 +97,6 @@
                     new Frame
                     {
                         Id = Guid.NewGuid(),
-                        FirstRoll = new Roll
-                        {
-                            PinsHit = 9,
-                        },
-                        SecondRoll = new Roll
-                        {
-                            PinsHit = 1,
-                        },
                         Score = 20
                     },
                     new Frame(),
