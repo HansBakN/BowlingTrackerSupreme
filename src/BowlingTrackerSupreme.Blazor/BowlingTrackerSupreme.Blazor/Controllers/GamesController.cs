@@ -25,28 +25,20 @@ namespace BowlingTrackerSupreme.Blazor.Controllers
             return new OkObjectResult(games);
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> Create([FromBody][Required] Game game)
-        //{
-        //    if (game.Id.HasValue) game.Id = null;
-        //    if (game.CreatedOn.HasValue) game.CreatedOn = null;
-        //    if (game.ModifiedOn.HasValue) game.ModifiedOn = null;
+        [HttpPost]
+        [ApiKeyAuthorize]
+        public async Task<IActionResult> Create([FromBody][Required] Game game)
+        {
+            if (game.Id.HasValue) game.Id = null;
+            if (game.CreatedOn.HasValue) game.CreatedOn = null;
+            if (game.ModifiedOn.HasValue) game.ModifiedOn = null;
 
-        //    var player = await _context.PlayerSet.FindAsync(game.WinningPlayer?.Id);
-        //    if (player == null)
-        //    {
-        //        return new BadRequestObjectResult($"{nameof(game.WinningPlayer)} not found: {game.WinningPlayer?.Id}");
-        //    }
+            await _context.AddAsync(game);
+            await _context.SaveChangesAsync();
 
-        //    game.WinningPlayer = player;
-        //    game.WinningPlayerId = player.Id;
+            var insertedGame = await _context.GameSet.FindAsync(game.Id);
 
-        //    await _context.AddAsync(game);
-        //    await _context.SaveChangesAsync();
-
-        //    var insertedGame = await _context.Games.FindAsync(game.Id);
-
-        //    return new OkObjectResult(insertedGame);
-        //}
+            return new OkObjectResult(insertedGame);
+        }
     }
 }

@@ -2,6 +2,7 @@
 using BowlingTrackerSupreme.Infrastructure.Database;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol.Plugins;
 
 namespace BowlingTrackerSupreme.Blazor.Controllers
 {
@@ -25,11 +26,12 @@ namespace BowlingTrackerSupreme.Blazor.Controllers
         }
 
         [HttpPost]
+        [ApiKeyAuthorize]
         public async Task<IActionResult> Create([FromBody] Player player)
         {
-            //if (player.Id.HasValue)         player.Id = null;
-            //if (player.CreatedOn.HasValue)  player.CreatedOn = null;
-            //if (player.ModifiedOn.HasValue) player.ModifiedOn = null;
+            if (player.Id.HasValue) player.Id = null;
+            if (player.CreatedOn.HasValue) player.CreatedOn = null;
+            if (player.ModifiedOn.HasValue) player.ModifiedOn = null;
 
             await _context.AddAsync(player);
             await _context.SaveChangesAsync();
@@ -39,15 +41,9 @@ namespace BowlingTrackerSupreme.Blazor.Controllers
         }
 
         [HttpPatch]
+        [ApiKeyAuthorize]
         public async Task<IActionResult> Update([FromBody] Player player)
         {
-
-            //var existingPlayer = await _context.PlayerSet.FindAsync(player.Id);
-            //if (existingPlayer == null)
-            //{
-            //    return new BadRequestObjectResult($"Unable to find {player.Id} player");
-            //}
-
             _context.Update(player);
             await _context.SaveChangesAsync();
 

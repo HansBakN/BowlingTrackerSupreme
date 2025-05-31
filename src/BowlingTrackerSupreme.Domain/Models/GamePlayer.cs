@@ -2,7 +2,7 @@ namespace BowlingTrackerSupreme.Domain.Models;
 
 public class GamePlayer
 {
-    public Guid Id { get; set; }
+    public Guid? Id { get; set; }
 
     public Guid GameId { get; set; }
 

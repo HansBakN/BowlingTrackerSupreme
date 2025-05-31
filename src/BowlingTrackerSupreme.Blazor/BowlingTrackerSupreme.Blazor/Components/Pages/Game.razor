@@ -1,20 +1,26 @@
 ﻿@page "/game/{Id}"
 @using BowlingTrackerSupreme.Domain.Models
 @using BowlingTrackerSupreme.Infrastructure.Database
+@using Microsoft.EntityFrameworkCore
 @inject BowlingTrackerSupremeDbContext DbContext
 @inject NavigationManager NavigationManager
 @attribute [StreamRendering]
 
-<PageTitle>Game - @_game?.PlayedOn</PageTitle>
-<h3>Game - 
-	@if (_game == null) { <em>Loading...</em>}
-    else { @_game.PlayedOn }
-</h3>
+<PageTitle>Game @_game?.GameNumber - @_game?.PlayedOn.ToShortDateString()</PageTitle>
+
+@if (_game == null) { <h3>Game - <em> Loading...</em>></h3> }
+else { <h3>Game @_game.GameNumber - @_game.PlayedOn.ToShortDateString()</h3> }
 
 <table class="table table-striped table-hover table-responsive">
     <caption>Game players: 
-        @if (_players == null) { <em>Loading...</em> }
-        else { _players.Count(); }
+        @if (_gamePlayers == null)
+        {
+            <em>Loading...</em>
+        }
+        else 
+        {
+            @(_gamePlayers?.Count() ?? 0)
+        }
     </caption>
     <thead>
         <tr class="d-flex flex-nowrap flex-row">
@@ -27,12 +33,18 @@
         </tr>
     </thead>
     <tbody>
-        @if (_gamePlayers != null)
+        @if (_gamePlayers == null || !_gamePlayers.Any())
+        {
+            <tr>
+                <td colspan="12" class="text-center"><em>No players found for this game.</em></td>
+            </tr>
+        }
+        else
         {
             @foreach (var playerGame in _gamePlayers)
             {
                 <tr class="d-flex">
-                    <td class="d-flex align-content-center w-50" >@playerGame.Player.UserName</td>
+                    <td class="d-flex align-content-center w-50"><a href="/player/@playerGame.PlayerId">@playerGame.Player.UserName</a></td>
                     @foreach(var frame in playerGame.Frames)
                     {
                         <td style="width: 100px;">
@@ -51,7 +63,14 @@
                             </div>	
                         </td>
                     }
-                    <td class="d-flex w-50">300</td>
+                    @if (playerGame.Frames?.Count() < 10)
+                    {
+                        @for (var i = playerGame.Frames.Count(); i < 10; i++)
+                        {
+                            <td style="width: 100px;" class="d-flex justify-content-center">--</td>
+                        }
+                    }.)
+                    <td class="d-flex w-50">@playerGame.TotalScore</td>
                 </tr>
             }
         }
@@ -79,41 +98,11 @@
             NavigationManager.NavigateTo("/error");
         }
 
-        _gamePlayers = new List<GamePlayer>
-        {
-            new GamePlayer
-            {
-                Id = Guid.NewGuid(),
-                GameId = game.Id,
-                Player = new Domain.Models.Player
-                {
-                    Id = Guid.NewGuid(),
-                    UserName = "Butterfly"
-                },
-                Game = game,
-                PlayerId = Guid.NewGuid(),
-                Frames = new List<Frame>
-                {
-                    new Frame
-                    {
-                        Id = Guid.NewGuid(),
-                        Score = 20
-                    },
-                    new Frame(),
-                    new Frame(),
-                    new Frame(),
-                    new Frame(),
-                    new Frame(),
-                    new Frame(),
-                    new Frame(),
-                    new Frame(),
-                    new Frame(),
-                }
-            }
-        };
-        // var playerGames = DbContext.PlayerGames.First();
-		// var playerIds = _playerGames.Select(p => p.PlayerId).ToList();
-		// _players = DbContext.Players.Where(x => playerIds.Contains(x.Id)).ToList();
+        _gamePlayers = await DbContext.GamePlayerSet
+            .Include(gp => gp.Player)
+            .Include(gp => gp.Frames)
+            .Where(gp => gp.GameId == gameId)
+            .ToListAsync();
 
 		_game = game;
 	}

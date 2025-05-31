@@ -22,15 +22,21 @@ else
 			</tr>
         </thead>
         <tbody>
-        @foreach (var game in _games)
-        {
-            <tr>
-                <td class="w-100"><a href="game/@game.Id">@game.PlayedOn</a></td>
-                <td class="text-nowrap">[WINNING_PLAYER]<!--<a href="player/@game.WinningPlayerId">@game.WinningPlayer?.Name</a>--></td>
-                <td class="text-end text-nowrap">@game.CreatedOn</td>
-                <td class="text-end text-nowrap">@game.ModifiedOn</td>
-            </tr>
-        }
+            @if (!_games.Any())
+            {
+                <tr>
+                    <td colspan="4"><em>No games found.</em></td>
+                </tr>
+            }
+            @foreach (var game in _games)
+            {
+                <tr>
+                    <td class="w-100"><a href="game/@game.Id">@game.PlayedOn.ToShortDateString()</a></td>
+                    <td class="text-nowrap">[WINNING_PLAYER]<!--<a href="player/@game.WinningPlayerId">@game.WinningPlayer?.Name</a>--></td>
+                    <td class="text-end text-nowrap">@game.CreatedOn</td>
+                    <td class="text-end text-nowrap">@game.ModifiedOn</td>
+                </tr>
+            }
         </tbody>
     </table>
 }
@@ -47,6 +53,7 @@ else
             .Select(g => new Domain.Models.Game
             {
                 Id = g.Id,
+                PlayedOn = g.PlayedOn,
                 CreatedOn = g.CreatedOn,
                 ModifiedOn = g.ModifiedOn,
                 // WinningPlayer = g.WinningPlayer
