@@ -1,25 +1,31 @@
-﻿services:
+services:
   database:
     container_name: BowlingTrackerSupreme.Database
     image: postgres:latest
     restart: unless-stopped
     ports:
       - 5432:5432/tcp
+    networks:
+      - bowling_backend
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=Netcompany-123
+      - POSTGRES_DB=BowlingTrackerSupreme
       - POSTGRES_HOST_AUTH_METHOD=trust
     volumes:
       - bowlingtrackersupreme_data:/var/lib/postgresql/data
+      - ./scripts/initial_setup.sql:/docker-entrypoint-initdb.d/initial_setup.sql
 
   adminer:
     image: adminer:latest
     restart: unless-stopped
     ports:
-      - 8080:8080/tcp
-    volumes:
-      - bowlingtrackersupreme_data:/var/lib/postgresql/data
+      - 8888:8080/tcp
+    networks:
+      - bowling_backend
 
 volumes:
   bowlingtrackersupreme_data:
 
+networks:
+  bowling_backend:
