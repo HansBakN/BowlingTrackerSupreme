@@ -11,6 +11,7 @@ public class BowlingTrackerSupremeDbContext(DbContextOptions<BowlingTrackerSupre
     public DbSet<PlayerNickname> PlayerNicknameSet { get; set; }
     public DbSet<GamePlayer> GamePlayerSet { get; set; }
     public DbSet<Frame> FrameSet { get; set; }
+    public DbSet<ApiKey> ApiKeySet { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
