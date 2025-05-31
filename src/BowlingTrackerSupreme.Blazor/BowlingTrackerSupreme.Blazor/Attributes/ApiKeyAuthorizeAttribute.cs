@@ -22,7 +22,7 @@ public class ApiKeyAuthorizeAttribute : Attribute, IAsyncActionFilter
             return;
         }
 
-        var exists = await dbContext.ApiKeySet.FirstOrDefaultAsync(k => k.Key == potentialApiKey);
+        var exists = await dbContext.ApiKeySet.FirstOrDefaultAsync(k => k.Key == potentialApiKey.FirstOrDefault());
         if (exists == null)
         {
             context.Result = new UnauthorizedResult();
