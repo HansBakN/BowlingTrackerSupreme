@@ -18,8 +18,4 @@ public class Player
 
     [DataMember(Name = nameof(ModifiedOn))]
     public DateTime? ModifiedOn { get; set; }
-
-    public IEnumerable<GamePlayer> GameParticipations { get; set; }
-
-    public IEnumerable<PlayerNickname> Nicknames { get; set; }
 }

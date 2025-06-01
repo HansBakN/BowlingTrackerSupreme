@@ -2,7 +2,7 @@ namespace BowlingTrackerSupreme.Domain.Models;
 
 public class Frame
 {
-    public Guid Id { get; set; }
+    public Guid? Id { get; set; }
     
     public Guid GamePlayerId { get; set; }
 
@@ -14,7 +14,7 @@ public class Frame
     
     public int SecondRoll { get; set; }
     
-    public int ThirdRoll { get; set; }
+    public int? ThirdRoll { get; set; }
 
     public int AccumulatedScore { get; set; }
     

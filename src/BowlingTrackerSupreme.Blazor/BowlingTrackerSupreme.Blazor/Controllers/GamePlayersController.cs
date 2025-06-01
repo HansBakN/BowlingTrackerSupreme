@@ -21,9 +21,29 @@ namespace BowlingTrackerSupreme.Blazor.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var gamePlayers = await _context.GamePlayerSet.ToListAsync();
+            var gamePlayers = await _context.GamePlayerSet
+                .Include(gp => gp.Player)
+                .Include(gp => gp.Game)
+                .Include(gp => gp.PlayerNickname)
+                .ToListAsync();
 
             return new OkObjectResult(gamePlayers);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(Guid id)
+        {
+            var gamePlayer = await _context.GamePlayerSet
+                .Include(gp => gp.Player)
+                .Include(gp => gp.Game)
+                .Include(gp => gp.PlayerNickname)
+                .FirstOrDefaultAsync(gp => gp.Id == id);
+            if (gamePlayer == null)
+            {
+                return NotFound();
+            }
+
+            return new OkObjectResult(gamePlayer);
         }
 
         [HttpPost]

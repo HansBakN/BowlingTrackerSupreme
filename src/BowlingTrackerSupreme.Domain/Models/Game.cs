@@ -9,8 +9,6 @@ public class Game
     public int Lane { get; set; }
     
     public int GameNumber { get; set; }
-
-    public IEnumerable<GamePlayer> Players { get; set; }
     
     public DateTime? CreatedOn { get; set; }
     

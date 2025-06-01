@@ -1,5 +1,6 @@
 ﻿@page "/player/{Id}"
 @using BowlingTrackerSupreme.Infrastructure.Database;
+@using Microsoft.EntityFrameworkCore
 @inject BowlingTrackerSupremeDbContext DbContext;
 @inject NavigationManager NavigationManager;
 @attribute [StreamRendering]
@@ -17,7 +18,7 @@ else
 		<div class="w-50 p-2">
 			<h3>Nicknames</h3>
 			<table class="table table-striped table-hover table-responsive">
-                <caption>Nicknames: @(_player?.Nicknames?.Count() ?? 0)</caption>
+				<caption>Nicknames: @(_nicknames?.Count() ?? 0)</caption>
 				<thead>
 					<tr>
 						<th scope="col">Nickname</th>
@@ -25,7 +26,7 @@ else
 					</tr>
 				</thead>
 				<tbody>
-					@if (_player?.Nicknames == null || !_player.Nicknames.Any())
+					@if (_nicknames == null || !_nicknames.Any())
 					{
 						<tr>
 							<td colspan="2"><em>No nicknames found.</em></td>
@@ -33,7 +34,7 @@ else
 					}
 					else
 					{
-						@foreach (var nickname in _player.Nicknames)
+						@foreach (var nickname in _nicknames)
 						{
 							<tr>
 								<td>@nickname.Nickname</td>
@@ -91,6 +92,8 @@ else
 
 	private IEnumerable<Domain.Models.Game> _games;
 
+	private IEnumerable<Domain.Models.PlayerNickname> _nicknames;
+
 	protected override async Task OnInitializedAsync()
 	{
 		if (!Guid.TryParse(Id, out var id))
@@ -103,5 +106,16 @@ else
 		{
 			NavigationManager.NavigateTo("/error");
 		}
+
+		_nicknames = DbContext.PlayerNicknameSet
+			.Where(n => n.PlayerId == _player.Id)
+			.OrderByDescending(n => n.CreatedOn);
+
+		_games = DbContext.GamePlayerSet
+			.Include(gp => gp.Game)
+			.Where(gp => gp.PlayerId == _player.Id)
+			.Select(gp => gp.Game)
+			.OrderByDescending(g => g.CreatedOn)
+			.Distinct();
 	}
 }

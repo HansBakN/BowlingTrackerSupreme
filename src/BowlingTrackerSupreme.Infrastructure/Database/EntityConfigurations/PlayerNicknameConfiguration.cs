@@ -11,7 +11,7 @@ namespace BowlingTrackerSupreme.Infrastructure.Database.EntityConfigurations
             builder.HasKey(x => x.Id);
 
             builder.HasOne(x => x.Player)
-                .WithMany(x => x.Nicknames)
+                .WithMany()
                 .IsRequired();
 
             builder.Property(x => x.Nickname)

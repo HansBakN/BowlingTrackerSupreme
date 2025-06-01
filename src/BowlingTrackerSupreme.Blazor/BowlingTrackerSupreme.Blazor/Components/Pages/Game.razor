@@ -44,7 +44,16 @@ else { <h3>Game @_game.GameNumber - @_game.PlayedOn.ToShortDateString()</h3> }
             @foreach (var playerGame in _gamePlayers)
             {
                 <tr class="d-flex">
-                    <td class="d-flex align-content-center w-50"><a href="/player/@playerGame.PlayerId">@playerGame.Player.UserName</a></td>
+                    <td class="d-flex align-content-center w-50">
+                        <a href="/player/@playerGame.PlayerId">
+                            @if (@playerGame.PlayerNickname == null)
+                            {
+                                @playerGame.Player.UserName
+                            } else {
+                                @playerGame.PlayerNickname.Nickname
+                            }
+                        </a>
+                    </td>
                     @foreach(var frame in playerGame.Frames)
                     {
                         <td style="width: 100px;">
@@ -82,9 +91,7 @@ else { <h3>Game @_game.GameNumber - @_game.PlayedOn.ToShortDateString()</h3> }
     public string Id { get; set; }
 
     private Domain.Models.Game _game;
-    private IEnumerable<Domain.Models.Frame> _frames;
     private IEnumerable<Domain.Models.GamePlayer> _gamePlayers;
-    private IEnumerable<Domain.Models.Player> _players;
 
     protected override async Task OnInitializedAsync()
     {
@@ -101,6 +108,7 @@ else { <h3>Game @_game.GameNumber - @_game.PlayedOn.ToShortDateString()</h3> }
         _gamePlayers = await DbContext.GamePlayerSet
             .Include(gp => gp.Player)
             .Include(gp => gp.Frames)
+            .Include(gp => gp.PlayerNickname)
             .Where(gp => gp.GameId == gameId)
             .ToListAsync();
 
