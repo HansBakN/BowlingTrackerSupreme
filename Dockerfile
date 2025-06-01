@@ -1,5 +1,5 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-WORKDIR /App
+WORKDIR /app
 
 # Copy source
 COPY ./src ./
@@ -12,8 +12,8 @@ RUN dotnet publish --configuration Release -o publish
 
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
-WORKDIR /App
-COPY --from=build /App/publish .
+WORKDIR /app
+COPY --from=build /app/publish .
 
 EXPOSE 8080/tcp
 ENTRYPOINT ["dotnet", "BowlingTrackerSupreme.Blazor.dll"]
