@@ -2,11 +2,15 @@ namespace BowlingTrackerSupreme.Domain.Models;
 
 public class Game
 {
-    public Guid Id { get; set; }
-    public Player WinningPlayer { get; set; } = null!;
-    public Guid WinningPlayerId { get; set; }
-    public DateTime DateCreated { get; set; }
-    public DateTime DatePlayed { get; set; }
-    public IEnumerable<PlayerGame> PlayerGames { get; set; } = [];
-    public IEnumerable<Player> Participants { get; set; } = [];
+    public Guid? Id { get; set; }
+    
+    public DateTime PlayedOn { get; set; }
+    
+    public int Lane { get; set; }
+    
+    public int GameNumber { get; set; }
+    
+    public DateTime? CreatedOn { get; set; }
+    
+    public DateTime? ModifiedOn { get; set; }
 }

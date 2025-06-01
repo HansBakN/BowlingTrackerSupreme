@@ -1,7 +1,46 @@
 ﻿@page "/"
+@using BowlingTrackerSupreme.Infrastructure.Database
+@inject BowlingTrackerSupremeDbContext DbContext
+@attribute [StreamRendering]
 
 <PageTitle>Home</PageTitle>
+<div class="mb-4">
+	<h1>Welcome!</h1>
+</div>
+<div>
+	<h2>Data overview:</h2>
+	<p><strong>Players: </strong>
+		@if (PlayerCount == null) { <em>Loading...</em> }
+		else { @PlayerCount }
+	</p>
+	<p><strong>Player Names: </strong>
+		@if (PlayerNamesCount == null) { <em>Loading...</em> }
+		else { @PlayerNamesCount }
+	</p>
+	<p><strong>Games: </strong>
+		@if (GamesCount== null) { <em>Loading...</em> }
+		else { @GamesCount}
+	</p>
+	<p><strong>Frames: </strong>
+		@if (FramesCount == null) { <em>Loading...</em> }
+		else { @FramesCount }
+	</p>
+</div>
 
-<h1>Hello, world!</h1>
+@code
+{
+	private int? PlayerCount;
+	private int? PlayerNamesCount;
+	private int? GamesCount;
+	private int? FramesCount;
 
-Welcome to your new app.
+	protected override async Task OnInitializedAsync()
+	{
+		await base.OnInitializedAsync();
+
+		PlayerCount = DbContext.PlayerSet.Count();
+		PlayerNamesCount = DbContext.PlayerNicknameSet.Count();
+		GamesCount = DbContext.GameSet.Count();
+		FramesCount = DbContext.FrameSet.Count();
+	}
+}

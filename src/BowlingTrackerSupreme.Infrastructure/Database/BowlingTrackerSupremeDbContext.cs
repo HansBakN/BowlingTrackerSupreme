@@ -6,11 +6,12 @@ namespace BowlingTrackerSupreme.Infrastructure.Database;
 public class BowlingTrackerSupremeDbContext(DbContextOptions<BowlingTrackerSupremeDbContext> options) 
     : DbContext(options)
 {
-    public DbSet<Player> Players { get; set; }
-    public DbSet<Game> Games { get; set; }
-    public DbSet<Roll> Rolls { get; set; }
-    public DbSet<PlayerGame> PlayerGames { get; set; }
-    public DbSet<Frame> Frames { get; set; }
+    public DbSet<Player> PlayerSet { get; set; }
+    public DbSet<Game> GameSet { get; set; }
+    public DbSet<PlayerNickname> PlayerNicknameSet { get; set; }
+    public DbSet<GamePlayer> GamePlayerSet { get; set; }
+    public DbSet<Frame> FrameSet { get; set; }
+    public DbSet<ApiKey> ApiKeySet { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
