@@ -56,7 +56,7 @@ else { <h3>Game @_game.GameNumber - @_game.PlayedOn.ToShortDateString()</h3> }
                     </td>
                     @foreach(var frame in playerGame.Frames)
                     {
-                        <td style="width: 100px;">
+                        <td style="width: @(frame.Index == 10 ? "150px" : "100px");">
                             <div class="d-flex flex-md-wrap border-1">
                                 <div class="d-flex justify-content-center w-50">
                                     @frame.FirstRoll
@@ -78,7 +78,7 @@ else { <h3>Game @_game.GameNumber - @_game.PlayedOn.ToShortDateString()</h3> }
                         {
                             <td style="width: 100px;" class="d-flex justify-content-center">--</td>
                         }
-                    }.)
+                    }
                     <td class="d-flex w-50">@playerGame.TotalScore</td>
                 </tr>
             }
