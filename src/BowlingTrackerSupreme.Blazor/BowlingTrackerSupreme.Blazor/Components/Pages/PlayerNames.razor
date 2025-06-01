@@ -1,6 +1,7 @@
 ﻿@page "/playernames"
 @using BowlingTrackerSupreme.Domain.Models
 @using BowlingTrackerSupreme.Infrastructure.Database
+@using Microsoft.EntityFrameworkCore
 @inject BowlingTrackerSupremeDbContext DbContext
 @attribute [StreamRendering]
 
@@ -11,11 +12,11 @@
 	<a href="playername" class="btn btn-info" style="min-width: 100px;">New</a>
 </div>
 
-@if (PlayerNicknames == null) { <em>Loading...</em> }
+@if (_playerNicknames == null) { <em>Loading...</em> }
 else
 {
 	<table class="table table-striped table-hover table-responsive">
-		<caption>List of players: @PlayerNicknames.Count()</caption>
+		<caption>List of players: @_playerNicknames.Count()</caption>
 		<thead> 
 			<tr>
 				<th scope="col" class="w-100">Name</th>
@@ -25,17 +26,17 @@ else
 			</tr>
 		</thead>
 		<tbody>
-			@if (!PlayerNicknames.Any())
+			@if (!_playerNicknames.Any())
 			{
 				<tr>
 					<td colspan="4"><em>No player nicknames found.</em></td>
                 </tr>
 			}
-			@foreach(var nickname in PlayerNicknames)
+			@foreach(var nickname in _playerNicknames)
 			{
 				<tr >
-					<td class="w-100"><a href="playernames/@nickname.Id">@nickname.Nickname</a></td>
-					<td class=""><a href="players/@nickname.PlayerId">@nickname.Player.UserName</a></td>
+					<td class="w-100"><a href="playername/@nickname.Id">@nickname.Nickname</a></td>
+					<td class=""><a href="player/@nickname.PlayerId">@nickname.Player.UserName</a></td>
 					<td class="text-end text-nowrap">@nickname.CreatedOn</td>
 					<td class="text-end text-nowrap">@nickname.ModifiedOn</td>
 				</tr>
@@ -45,12 +46,13 @@ else
 }
 
 @code {
-	protected IEnumerable<Domain.Models.PlayerNickname> PlayerNicknames;
+	protected IEnumerable<Domain.Models.PlayerNickname> _playerNicknames;
 
 	protected override async Task OnInitializedAsync()
 	{
-        PlayerNicknames = (from p in DbContext.PlayerNicknameSet
-			orderby p.CreatedOn descending
-			select p).ToList();
+        _playerNicknames = await DbContext.PlayerNicknameSet
+            .Include(p => p.Player) // Include the Player navigation property
+            .OrderByDescending(p => p.CreatedOn)
+            .ToListAsync();
 	}
 }
