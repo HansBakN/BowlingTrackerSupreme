@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BowlingTrackerSupreme.Migra
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "BowlingTrackerSupreme.Vue", "BowlingTrackerSupreme.Vue\BowlingTrackerSupreme.Vue.esproj", "{DC2C980A-D473-3D03-39D8-5951F7ED6C89}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BowlingTrackerSupreme.Web", "BowlingTrackerSupreme.Web\BowlingTrackerSupreme.Web.csproj", "{BFC021B0-9198-478F-8542-B4F9C654D37B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,8 +55,15 @@ Global
 		{DC2C980A-D473-3D03-39D8-5951F7ED6C89}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC2C980A-D473-3D03-39D8-5951F7ED6C89}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DC2C980A-D473-3D03-39D8-5951F7ED6C89}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{BFC021B0-9198-478F-8542-B4F9C654D37B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFC021B0-9198-478F-8542-B4F9C654D37B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFC021B0-9198-478F-8542-B4F9C654D37B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFC021B0-9198-478F-8542-B4F9C654D37B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7B68193B-DDA9-46ED-83C8-A32378383270}
 	EndGlobalSection
 EndGlobal
