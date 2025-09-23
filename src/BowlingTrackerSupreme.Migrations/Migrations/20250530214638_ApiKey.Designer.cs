@@ -3,6 +3,7 @@ using System;
 using BowlingTrackerSupreme.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BowlingTrackerSupreme.Migrations.Migrations
 {
     [DbContext(typeof(BowlingTrackerSupremeDbContext))]
-    partial class BowlingTrackerSupremeDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250530214638_ApiKey")]
+    partial class ApiKey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,7 +52,7 @@ namespace BowlingTrackerSupreme.Migrations.Migrations
 
             modelBuilder.Entity("BowlingTrackerSupreme.Domain.Models.Frame", b =>
                 {
-                    b.Property<Guid?>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
@@ -71,7 +74,7 @@ namespace BowlingTrackerSupreme.Migrations.Migrations
                     b.Property<int>("SecondRoll")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("ThirdRoll")
+                    b.Property<int>("ThirdRoll")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -83,7 +86,7 @@ namespace BowlingTrackerSupreme.Migrations.Migrations
 
             modelBuilder.Entity("BowlingTrackerSupreme.Domain.Models.Game", b =>
                 {
-                    b.Property<Guid?>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
@@ -115,7 +118,7 @@ namespace BowlingTrackerSupreme.Migrations.Migrations
 
             modelBuilder.Entity("BowlingTrackerSupreme.Domain.Models.GamePlayer", b =>
                 {
-                    b.Property<Guid?>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
@@ -213,19 +216,19 @@ namespace BowlingTrackerSupreme.Migrations.Migrations
             modelBuilder.Entity("BowlingTrackerSupreme.Domain.Models.GamePlayer", b =>
                 {
                     b.HasOne("BowlingTrackerSupreme.Domain.Models.Game", "Game")
-                        .WithMany()
+                        .WithMany("Players")
                         .HasForeignKey("GameId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("BowlingTrackerSupreme.Domain.Models.Player", "Player")
-                        .WithMany()
+                        .WithMany("GameParticipations")
                         .HasForeignKey("PlayerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("BowlingTrackerSupreme.Domain.Models.PlayerNickname", "PlayerNickname")
-                        .WithMany()
+                        .WithMany("GamePlayers")
                         .HasForeignKey("PlayerNicknameId");
 
                     b.Navigation("Game");
@@ -238,7 +241,7 @@ namespace BowlingTrackerSupreme.Migrations.Migrations
             modelBuilder.Entity("BowlingTrackerSupreme.Domain.Models.PlayerNickname", b =>
                 {
                     b.HasOne("BowlingTrackerSupreme.Domain.Models.Player", "Player")
-                        .WithMany()
+                        .WithMany("Nicknames")
                         .HasForeignKey("PlayerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -246,9 +249,26 @@ namespace BowlingTrackerSupreme.Migrations.Migrations
                     b.Navigation("Player");
                 });
 
+            modelBuilder.Entity("BowlingTrackerSupreme.Domain.Models.Game", b =>
+                {
+                    b.Navigation("Players");
+                });
+
             modelBuilder.Entity("BowlingTrackerSupreme.Domain.Models.GamePlayer", b =>
                 {
                     b.Navigation("Frames");
+                });
+
+            modelBuilder.Entity("BowlingTrackerSupreme.Domain.Models.Player", b =>
+                {
+                    b.Navigation("GameParticipations");
+
+                    b.Navigation("Nicknames");
+                });
+
+            modelBuilder.Entity("BowlingTrackerSupreme.Domain.Models.PlayerNickname", b =>
+                {
+                    b.Navigation("GamePlayers");
                 });
 #pragma warning restore 612, 618
         }

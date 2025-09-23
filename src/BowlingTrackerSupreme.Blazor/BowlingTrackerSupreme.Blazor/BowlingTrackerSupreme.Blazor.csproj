@@ -12,10 +12,15 @@
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.12" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.11">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
         <ProjectReference Include="..\..\BowlingTrackerSupreme.Infrastructure\BowlingTrackerSupreme.Infrastructure.csproj" />
         <ProjectReference Include="..\..\BowlingTrackerSupreme.Migrations\BowlingTrackerSupreme.Migrations.csproj" />
-        <ProjectReference Include="..\BowlingTrackerSupreme.Blazor.Client\BowlingTrackerSupreme.Blazor.Client.csproj"/>
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.11"/>
+        <ProjectReference Include="..\BowlingTrackerSupreme.Blazor.Client\BowlingTrackerSupreme.Blazor.Client.csproj" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.11" />
     </ItemGroup>
 
 </Project>
