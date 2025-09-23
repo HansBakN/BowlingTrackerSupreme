@@ -22,83 +22,100 @@ namespace BowlingTrackerSupreme.Migrations.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("BowlingTrackerSupreme.Domain.Models.Frame", b =>
+            modelBuilder.Entity("BowlingTrackerSupreme.Domain.Models.ApiKey", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Discriminator")
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(13)
-                        .HasColumnType("character varying(13)");
+                        .HasColumnType("text");
 
-                    b.Property<Guid>("FirstRollId")
-                        .HasColumnType("uuid");
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
 
-                    b.Property<int>("FrameNumber")
-                        .HasColumnType("integer");
-
-                    b.Property<Guid>("PlayerGameId")
-                        .HasColumnType("uuid");
-
-                    b.Property<int?>("Score")
-                        .HasColumnType("integer");
-
-                    b.Property<Guid>("SecondRollId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PlayerGameId");
-
-                    b.ToTable("Frames");
-
-                    b.HasDiscriminator().HasValue("Frame");
-
-                    b.UseTphMappingStrategy();
-                });
-
-            modelBuilder.Entity("BowlingTrackerSupreme.Domain.Models.Game", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("DatePlayed")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("WinningPlayerId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("WinningPlayerId");
-
-                    b.ToTable("Games");
-                });
-
-            modelBuilder.Entity("BowlingTrackerSupreme.Domain.Models.Player", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Name")
+                    b.Property<string>("Key")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Players");
+                    b.ToTable("ApiKeySet");
                 });
 
-            modelBuilder.Entity("BowlingTrackerSupreme.Domain.Models.PlayerGame", b =>
+            modelBuilder.Entity("BowlingTrackerSupreme.Domain.Models.Frame", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("AccumulatedScore")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("FirstRoll")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("GamePlayerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Index")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Score")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("SecondRoll")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("ThirdRoll")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GamePlayerId");
+
+                    b.ToTable("FrameSet");
+                });
+
+            modelBuilder.Entity("BowlingTrackerSupreme.Domain.Models.Game", b =>
+                {
+                    b.Property<Guid?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("CreatedOn")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("timezone('utc', now())");
+
+                    b.Property<int>("GameNumber")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Lane")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("timezone('utc', now())");
+
+                    b.Property<DateTime>("PlayedOn")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("GameSet");
+                });
+
+            modelBuilder.Entity("BowlingTrackerSupreme.Domain.Models.GamePlayer", b =>
+                {
+                    b.Property<Guid?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
@@ -108,162 +125,128 @@ namespace BowlingTrackerSupreme.Migrations.Migrations
                     b.Property<Guid>("PlayerId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("PlayerNicknameId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("TotalScore")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.HasIndex("GameId");
 
                     b.HasIndex("PlayerId");
 
-                    b.ToTable("PlayerGames");
+                    b.HasIndex("PlayerNicknameId");
+
+                    b.ToTable("GamePlayerSet");
                 });
 
-            modelBuilder.Entity("GamePlayer", b =>
+            modelBuilder.Entity("BowlingTrackerSupreme.Domain.Models.Player", b =>
                 {
-                    b.Property<Guid>("GameParticipationId")
+                    b.Property<Guid?>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("ParticipantsId")
-                        .HasColumnType("uuid");
+                    b.Property<DateTime?>("CreatedOn")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("timezone('utc', now())");
 
-                    b.HasKey("GameParticipationId", "ParticipantsId");
+                    b.Property<DateTime?>("ModifiedOn")
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("timezone('utc', now())");
 
-                    b.HasIndex("ParticipantsId");
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("text");
 
-                    b.ToTable("GamePlayer");
+                    b.HasKey("Id");
+
+                    b.ToTable("PlayerSet");
                 });
 
-            modelBuilder.Entity("BowlingTrackerSupreme.Domain.Models.FinalFrame", b =>
+            modelBuilder.Entity("BowlingTrackerSupreme.Domain.Models.PlayerNickname", b =>
                 {
-                    b.HasBaseType("BowlingTrackerSupreme.Domain.Models.Frame");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
 
-                    b.HasDiscriminator().HasValue("FinalFrame");
+                    b.Property<DateTime>("CreatedOn")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("timezone('utc', now())");
+
+                    b.Property<DateTime>("ModifiedOn")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("timezone('utc', now())");
+
+                    b.Property<string>("Nickname")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("PlayerId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PlayerId");
+
+                    b.ToTable("PlayerNicknameSet");
                 });
 
             modelBuilder.Entity("BowlingTrackerSupreme.Domain.Models.Frame", b =>
                 {
-                    b.HasOne("BowlingTrackerSupreme.Domain.Models.PlayerGame", "PlayerGame")
+                    b.HasOne("BowlingTrackerSupreme.Domain.Models.GamePlayer", "GamePlayer")
                         .WithMany("Frames")
-                        .HasForeignKey("PlayerGameId")
+                        .HasForeignKey("GamePlayerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("BowlingTrackerSupreme.Domain.Models.Roll", "FirstRoll", b1 =>
-                        {
-                            b1.Property<Guid>("FrameId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<int>("PinsHit")
-                                .HasColumnType("integer");
-
-                            b1.HasKey("FrameId");
-
-                            b1.ToTable("Frames");
-
-                            b1.WithOwner()
-                                .HasForeignKey("FrameId");
-                        });
-
-                    b.OwnsOne("BowlingTrackerSupreme.Domain.Models.Roll", "SecondRoll", b1 =>
-                        {
-                            b1.Property<Guid>("FrameId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<int>("PinsHit")
-                                .HasColumnType("integer");
-
-                            b1.HasKey("FrameId");
-
-                            b1.ToTable("Frames");
-
-                            b1.WithOwner()
-                                .HasForeignKey("FrameId");
-                        });
-
-                    b.Navigation("FirstRoll")
-                        .IsRequired();
-
-                    b.Navigation("PlayerGame");
-
-                    b.Navigation("SecondRoll");
+                    b.Navigation("GamePlayer");
                 });
 
-            modelBuilder.Entity("BowlingTrackerSupreme.Domain.Models.Game", b =>
-                {
-                    b.HasOne("BowlingTrackerSupreme.Domain.Models.Player", "WinningPlayer")
-                        .WithMany()
-                        .HasForeignKey("WinningPlayerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("WinningPlayer");
-                });
-
-            modelBuilder.Entity("BowlingTrackerSupreme.Domain.Models.PlayerGame", b =>
+            modelBuilder.Entity("BowlingTrackerSupreme.Domain.Models.GamePlayer", b =>
                 {
                     b.HasOne("BowlingTrackerSupreme.Domain.Models.Game", "Game")
-                        .WithMany("PlayerGames")
+                        .WithMany()
                         .HasForeignKey("GameId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("BowlingTrackerSupreme.Domain.Models.Player", "Player")
-                        .WithMany("PlayedGames")
+                        .WithMany()
                         .HasForeignKey("PlayerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("BowlingTrackerSupreme.Domain.Models.PlayerNickname", "PlayerNickname")
+                        .WithMany()
+                        .HasForeignKey("PlayerNicknameId");
+
                     b.Navigation("Game");
+
+                    b.Navigation("Player");
+
+                    b.Navigation("PlayerNickname");
+                });
+
+            modelBuilder.Entity("BowlingTrackerSupreme.Domain.Models.PlayerNickname", b =>
+                {
+                    b.HasOne("BowlingTrackerSupreme.Domain.Models.Player", "Player")
+                        .WithMany()
+                        .HasForeignKey("PlayerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Player");
                 });
 
-            modelBuilder.Entity("GamePlayer", b =>
-                {
-                    b.HasOne("BowlingTrackerSupreme.Domain.Models.Game", null)
-                        .WithMany()
-                        .HasForeignKey("GameParticipationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BowlingTrackerSupreme.Domain.Models.Player", null)
-                        .WithMany()
-                        .HasForeignKey("ParticipantsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("BowlingTrackerSupreme.Domain.Models.FinalFrame", b =>
-                {
-                    b.OwnsOne("BowlingTrackerSupreme.Domain.Models.Roll", "ThirdRoll", b1 =>
-                        {
-                            b1.Property<Guid>("FinalFrameId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<int>("PinsHit")
-                                .HasColumnType("integer");
-
-                            b1.HasKey("FinalFrameId");
-
-                            b1.ToTable("Frames");
-
-                            b1.WithOwner()
-                                .HasForeignKey("FinalFrameId");
-                        });
-
-                    b.Navigation("ThirdRoll");
-                });
-
-            modelBuilder.Entity("BowlingTrackerSupreme.Domain.Models.Game", b =>
-                {
-                    b.Navigation("PlayerGames");
-                });
-
-            modelBuilder.Entity("BowlingTrackerSupreme.Domain.Models.Player", b =>
-                {
-                    b.Navigation("PlayedGames");
-                });
-
-            modelBuilder.Entity("BowlingTrackerSupreme.Domain.Models.PlayerGame", b =>
+            modelBuilder.Entity("BowlingTrackerSupreme.Domain.Models.GamePlayer", b =>
                 {
                     b.Navigation("Frames");
                 });

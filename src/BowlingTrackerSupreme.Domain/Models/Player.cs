@@ -1,9 +1,21 @@
-﻿namespace BowlingTrackerSupreme.Domain.Models;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
 
+namespace BowlingTrackerSupreme.Domain.Models;
+
+[DataContract(Name = nameof(Player))]
 public class Player
 {
-    public Guid Id { get; set; }
-    public required string Name { get; set; }
-    public IEnumerable<Game> GameParticipation { get; set; } = [];
-    public IEnumerable<PlayerGame> PlayedGames { get; set; } = [];
+    [DataMember(Name = nameof(Id))]
+    public Guid? Id { get; set; }
+
+    [DataMember(Name = nameof(UserName))]
+    [Required]
+    public string UserName { get; set; }
+
+    [DataMember(Name = nameof(CreatedOn))]
+    public DateTime? CreatedOn { get; set; }
+
+    [DataMember(Name = nameof(ModifiedOn))]
+    public DateTime? ModifiedOn { get; set; }
 }
