@@ -20,6 +20,18 @@
     volumes:
       - bowlingtrackersupreme_data:/var/lib/postgresql/data
 
+  frontend-dev:
+    container_name: BowlingTrackerSupreme.Frontend
+    build:
+      context: ./src/BowlingTrackerSupreme.Vue
+      dockerfile: Dockerfile
+    ports:
+      - 5173:5173
+    volumes:
+      - ./src/BowlingTrackerSupreme.Vue:/app
+      - node_modules:/app/node_modules
+
 volumes:
   bowlingtrackersupreme_data:
+  node_modules: {}
 
