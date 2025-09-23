@@ -1,21 +1,7 @@
 <script setup lang="ts">
 import { reactive } from 'vue'
-
-type Roll = number
-
-interface Frame {
-  rolls: Roll[] // 1–3 rolls depending on 10th frame
-}
-
-interface Game {
-  frames: Frame[] // always length 10
-}
-
-interface FrameScore {
-  frameIndex: number
-  score: number | null
-  runningTotal: number | null
-}
+import { Game } from '../types'
+import { calculateScores } from '../Services/ScoreCalculatorService'
 
 // Player data structure
 const createPlayer = (name = '') => ({
@@ -37,54 +23,6 @@ const dateOfGame = reactive({ value: new Date().toISOString().substr(0, 10) })
 // Add/Remove players
 const addPlayer = () => players.push(createPlayer())
 const removePlayer = () => { if (players.length > 1) players.pop() }
-
-// --- Bowling scoring functions from your TypeScript module ---
-function calculateScores(game: Game): FrameScore[] {
-  const scores: FrameScore[] = []
-  let runningTotal = 0
-
-  for (let i = 0; i < 10; i++) {
-    const frameScore = getFrameScore(game, i)
-    if (frameScore != null) {
-      runningTotal += frameScore
-      scores.push({ frameIndex: i, score: frameScore, runningTotal })
-    } else {
-      scores.push({ frameIndex: i, score: null, runningTotal: null })
-    }
-  }
-
-  return scores
-}
-
-function getFrameScore(game: Game, index: number): number | null {
-  const frame = game.frames[index]
-  const rolls = flattenRolls(game)
-  const rollIndex = getRollIndex(game, index)
-
-  if (index === 9) return frame.rolls.reduce((a, b) => a + b, 0)
-
-  if (frame.rolls[0] === 10) {
-    if (rolls.length <= rollIndex + 2) return null
-    return 10 + rolls[rollIndex + 1] + rolls[rollIndex + 2]
-  }
-
-  if (frame.rolls.length === 2 && frame.rolls[0] + frame.rolls[1] === 10) {
-    if (rolls.length <= rollIndex + 2) return null
-    return 10 + rolls[rollIndex + 2]
-  }
-
-  if (frame.rolls.length === 2) return frame.rolls[0] + frame.rolls[1]
-
-  return null
-}
-
-function flattenRolls(game: Game): Roll[] {
-  return game.frames.flatMap(f => f.rolls)
-}
-
-function getRollIndex(game: Game, frameIndex: number): number {
-  return game.frames.slice(0, frameIndex).reduce((sum, f) => sum + f.rolls.length, 0)
-}
 
 // --- Update scores using the new scoring system ---
 const updateScore = (playerIndex: number) => {
