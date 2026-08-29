@@ -6,8 +6,8 @@
     ports:
       - 5432:5432/tcp
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=Netcompany-123
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_HOST_AUTH_METHOD=trust
     volumes:
       - bowlingtrackersupreme_data:/var/lib/postgresql/data
